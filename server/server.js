@@ -11,12 +11,15 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-
+app.use(express.static('dist'));
+app.use('*.js', (req, res, next) => {
+  res.set('Content-Type', 'application/javascript');
+  next();
+});
 
 // Cloudinary setup
 cloudinary.config({
@@ -46,7 +49,6 @@ console.log('Cloudinary Config:', {
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET ? '*****' : 'MISSING'
 });
-
 
 // Mongoose Schema
 const formSchema = new mongoose.Schema({
